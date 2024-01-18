@@ -14,7 +14,7 @@ public class Ekspedisi {
     public record jadwal(String id_jadwal, String Tanggal, String estimasi){};
     public record nota(String id_nota, String[] id_barang, String id_pengirim, 
         String id_penerima,String Status_Pengiriman, String id_detail_eks){};
-    public record detail_ekspedisi_jadwal(String id_detail_eks, String id_ekspedisi, String nama_ekspedisi, String estimasi, String id_jadwal){};
+    public record detail_ekspedisi_jadwal(String id_detail_eks, String nota,  String id_ekspedisi, String nama_ekspedisi, String estimasi, String id_jadwal){};
 
     
     
@@ -374,6 +374,7 @@ public class Ekspedisi {
                                 System.out.println("");
                                 System.out.println("Harga pengiriman yang harus dibayar penerima ke-" + (i+1) + " adalah : Rp."+ h_barang);
                                 int t_keseluruhan = h_barang + total_harga;
+                                input.nextLine();
                                 System.out.println("");
                                 System.out.println("Harga Total Untuk seluruh pesanan penerima ke-" + (i+1) + " adalah : Rp." + t_keseluruhan );
                                 System.out.println("");
@@ -391,7 +392,7 @@ public class Ekspedisi {
                          int nextJadwal = panjangJadwal + 1;
                          id_jadwal = "J0" + (nextJadwal);
                       }
-                     input.nextLine();
+                     
                       System.out.print("Masukkan tanggal akan dikirim : ");
                       String tanggal = input.nextLine();
                       System.out.print("Masukkan tanggal estimasi: ");
@@ -413,14 +414,14 @@ public class Ekspedisi {
                         
                            String id_dej = null ;
                          if( listdetEksJad.isEmpty()) {
-                        id_nota = "DEJ"+(i+1);
+                        id_dej = "DEJ"+(i+1);
                         } 
                        
                         String[]  listdetEksJadDitemukan = listKodeValid.toArray(new String[0]);
                         if(!listdetEksJad.isEmpty() && listdetEksJadDitemukan.length > 0) {
                             int panjang =  listdetEksJad.size();
                             int nextIndex = panjang + 1;
-                             id_nota = "DEJ" + nextIndex;
+                             id_dej = "DEJ" + nextIndex;
                         }
                         
                         
@@ -428,7 +429,7 @@ public class Ekspedisi {
                       String id_pengirim = "R01";
                       nota nta = new nota(id_nota, listKodeDitemukan, id_pengirim, id_penerima,status_pengiriman , id_dej);
                       jadwal jad = new jadwal(id_jadwal, tanggal, estimasi);
-                      detail_ekspedisi_jadwal  dej = new detail_ekspedisi_jadwal ( id_dej, ek.id_ekspedisi(), ek.nama_ekspedisi(), estimasi , id_jadwal);
+                      detail_ekspedisi_jadwal  dej = new detail_ekspedisi_jadwal ( id_dej, id_nota, ek.id_ekspedisi(), ek.nama_ekspedisi(), estimasi , id_jadwal);
                       listNota.add(nta);
                       listJadwal.add(jad);
                       listdetEksJad.add(dej);
@@ -583,10 +584,12 @@ public class Ekspedisi {
                         }
                     }
                                   for(detail_ekspedisi_jadwal j : listdetEksJad){
+                                        if(j.nota.equals(n.id_nota())) {
                                       System.out.println("| Estimasi Barang Diterima : " + j.estimasi);
                                       System.out.println("+-----------------------------------+");
                                        System.out.println("| Nama Ekspedisi : " + j.nama_ekspedisi);
                                       System.out.println("+-----------------------------------+");
+                                        }
                                   } 
                                 
                                    System.out.println("| Status Pengiriman : " + n.Status_Pengiriman());
