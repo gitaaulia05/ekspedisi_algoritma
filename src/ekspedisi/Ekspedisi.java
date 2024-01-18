@@ -4,10 +4,6 @@
  */
 package ekspedisi;
 
-/**
- *
- * @author ASUS
- */
 import java.util.*;
 public class Ekspedisi {
   
@@ -15,10 +11,10 @@ public class Ekspedisi {
     public record barang(String id_barang, String nama_barang, String ukuran, int harga_barang){};
     public record pengirim(String id_pengirim, String nama, String alamat, long no_hp){};
     public record ekspedisi(String id_ekspedisi, String nama_ekspedisi, int harga_berat){};
-    public record jadwal(String id_jadwal, int Tanggal, int estimasi){};
+    public record jadwal(String id_jadwal, String Tanggal, String estimasi){};
     public record nota(String id_nota, String[] id_barang, String id_pengirim, 
         String id_penerima,String Status_Pengiriman, String id_detail_eks){};
-    public record detail_ekspedisi_jadwal(String id_detail_eks, String id_ekspedisi, String nama_ekspedisi, int estimasi, String id_jadwal){};
+    public record detail_ekspedisi_jadwal(String id_detail_eks, String id_ekspedisi, String nama_ekspedisi, String estimasi, String id_jadwal){};
 
     
     
@@ -395,12 +391,11 @@ public class Ekspedisi {
                          int nextJadwal = panjangJadwal + 1;
                          id_jadwal = "J0" + (nextJadwal);
                       }
-                     
+                     input.nextLine();
                       System.out.print("Masukkan tanggal akan dikirim : ");
-                      int tanggal = input.nextInt();
+                      String tanggal = input.nextLine();
                       System.out.print("Masukkan tanggal estimasi: ");
-                      int estimasi = input.nextInt();
-                      input.nextLine();
+                      String estimasi = input.nextLine();
                       System.out.print("Masukkan Status Pengiriman (0 untuk dalam perjalanan, 1 untuk sudah diterima) : ");
                       String status_pengiriman = input.nextLine();
                       
