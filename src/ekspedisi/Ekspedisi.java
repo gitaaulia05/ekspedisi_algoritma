@@ -15,7 +15,7 @@ public class Ekspedisi {
     public record ekspedisi(String id_ekspedisi, String nama_ekspedisi, int harga_berat){};
     public record jadwal(String id_jadwal, String Tanggal, String estimasi){};
     public record nota(String id_nota, String[] id_barang, String id_pengirim, 
-        String id_penerima, String Status_Pengiriman, String id_detail_eks, LocalDate estimasi){};
+        String id_penerima, String Status_Pengiriman, double total_berat, String id_detail_eks, LocalDate estimasi){};
     public record detail_ekspedisi_jadwal(String id_detail_eks, String nota,  String id_ekspedisi, String nama_ekspedisi, String estimasi, String id_jadwal){};
 
     
@@ -73,6 +73,7 @@ public class Ekspedisi {
                   if(alamatR.matches("\\d+")){
                       System.out.println("");
                       System.out.println("\u001B[31mMasukkan alamat dengan benar (tidak boleh angka saja ) !\u001B[0m");
+                      System.out.println("");
                   }else {
                       break;
                   }
@@ -130,7 +131,7 @@ public class Ekspedisi {
         System.out.println("+---+-----------------------------+");        
         System.out.println("| 1 | Riwayat Transaksi           |");
         System.out.println("+---+-----------------------------+");        
-        System.out.println("| 2 | Keluar                      |");
+        System.out.println("| 2 | Keluar                     |");
         System.out.println("+---+-----------------------------+");
         System.out.print("Pilih Menu : ");
     }
@@ -170,10 +171,10 @@ public class Ekspedisi {
            
        Scanner input = new Scanner(System.in);
               // DISINI
-        System.out.println("+---------------------------------+");       
-        System.out.println("|   Program Ekspedisi Konveksi    |");
-        System.out.println("+---------------------------------+");
-        System.out.println("");
+System.out.println("                                                              +--------------------------------------------------------------------------------------+");              
+System.out.println("                                                              |                               Program Ekspedisi Konveksi                             |");
+System.out.println("                                                              +--------------------------------------------------------------------------------------+");       
+System.out.println("");
         
      
 
@@ -186,6 +187,7 @@ public class Ekspedisi {
             switch (p_menu) {
                 case 1:
                     // Perform action for option 1
+                    System.out.println("");
                     System.out.println(blueColor+ "Anda masuk sebagai admin "+ resetColor);
                     System.out.println("");
                     input.nextLine();
@@ -201,7 +203,9 @@ public class Ekspedisi {
                        idValid = true;
                        if( nama_pengirim.equals(m.nama())){
                            Nama = true;
-                           System.out.println("Halo admin " + m.nama());
+                           System.out.println("");
+                           System.out.println("\u001B[32mHalo admin " + m.nama() + "\u001B[0m");
+                           System.out.println("");
                          handleSubMenuAdmin(input, listNota, listPenerima, listBarang, listEkspedisi,  listJadwal, listdetEksJad);
                        }
                 } 
@@ -211,10 +215,10 @@ public class Ekspedisi {
                          System.out.println(redColor + "Id dan Nama yang Anda Masukkan Tidak Terdaftar!" + resetColor);
                          System.out.println("");
                      }    else if(!Nama){
-                         System.out.println(redColor +"Nama yang anda masukkan salah"+ resetColor);
+                         System.out.println(redColor +"Nama yang anda masukkan Tidak Terdaftar"+ resetColor);
                          System.out.println("");
                      } else if(!idValid){
-                         System.out.println(redColor +"Id yang anda masukkan salah"+ resetColor);
+                         System.out.println(redColor +"Id yang anda masukkan Tidak Terdaftar"+ resetColor);
                           System.out.println("");
                      }
                     break;
@@ -233,7 +237,8 @@ public class Ekspedisi {
                     if(id_penerima.equals(p.id_penerima)){
                         idValidUser = true;
                          if(nama_penerima.equals(p.nama())) {
-                              System.out.println("Halo  " + p.nama);      
+                             NamaUser = true;
+                              System.out.println(  "\u001B[32m"+ "Halo  " + p.nama + "\u001B[0m");      
                      handleSubMenuUser(input , listPenerima , id_penerima, listNota, listBarang, listdetEksJad);
                          }
             }      
@@ -256,7 +261,9 @@ public class Ekspedisi {
                    System.out.println(yColor + "program Berakhir Terimakasih !" + resetColor);
                    break;
                 default:
+                    System.out.println("");
                     System.out.println(redColor + "Pilihan tidak sesuai coba lagi"+ resetColor);
+                    System.out.println("");
             }
         } while (p_menu != 4);
 
@@ -369,7 +376,7 @@ public class Ekspedisi {
                    System.out.println("Klik enter untuk memasukkan barang");
                    input.nextLine();
                      
-                    int total_berat=0;
+                    double total_berat=0;
                     int total_harga=0;
                     
                     // DISINI
@@ -394,6 +401,7 @@ public class Ekspedisi {
                       boolean barangFound = false;
                      System.out.print("Masukkan Nama Barang : ");
                      j_barang1 = input.nextLine();
+                     
                                   // DISINI
                                  for(barang b : listBarang){
                                  if(b.nama_barang().equalsIgnoreCase(j_barang1)) {
@@ -518,12 +526,24 @@ public class Ekspedisi {
                                 String id_ekspedisi = e.id_ekspedisi();
                                 System.out.println("");
                                 System.out.println("Jasa ekspedisi yang anda pilih : " + e.nama_ekspedisi());
-                                System.out.print("Masukkan total berat barang yang akan dikirim : " );
-                                total_berat = input.nextInt();
-                                int  h_barang = total_berat * e.harga_berat();
+                                
+                                 while(true){
+                                      System.out.print("Masukkan total berat barang yang akan dikirim : " );
+                                total_berat = input.nextDouble();
+                                  if(total_berat >= 1){
+                                      break;
+                                  } else {
+                                      System.out.println("");
+                                      System.out.println("\u001B[31mMinimal Berat Barang 1 Kilo ! \u001B[0m"); 
+                                      System.out.println("");
+                                      
+                                  }
+                                 }
+                               
+                                double  h_barang = total_berat * e.harga_berat();
                                 System.out.println("");
                                 System.out.println("Harga pengiriman yang harus dibayar penerima ke-" + (i+1) + " adalah : Rp."+ h_barang);
-                                int t_keseluruhan = h_barang + total_harga;
+                                double t_keseluruhan = h_barang + total_harga;
                                 input.nextLine();
                                 System.out.println("");
                                 System.out.println("Harga Total Untuk seluruh pesanan penerima ke-" + (i+1) + " adalah : Rp." + t_keseluruhan );
@@ -556,15 +576,17 @@ public class Ekspedisi {
                        LocalDate parsedDate = null;
                     String tanggal = null;
                         
-                    while(parsedDate == null){
-                         System.out.print("Masukkan tanggal akan dikirim (format yyyy-MM-dd): ");
+                    while (parsedDate == null) {
+                         System.out.print("Masukkan Tanggal yang Akan Dikirim  ( format : Tanggal , Bulan , Tahun  ) " + "\u001B[31m( DD.MM.YYYY )\u001B[0m : ");
                             tanggal = input.nextLine();
-                            try {
+                            try  {
                                 parsedDate = LocalDate.parse(tanggal, formatter);
-                System.out.println("Valid date: " + parsedDate);
+//                System.out.println("Valid date: " + parsedDate);
                 break; // Exit the loop when a valid date is provided
-                            }catch (Exception e) {
-                System.out.println("Invalid date format. Please try again.");
+                            } catch (Exception e)  {
+                                System.out.println("");
+                System.out.println("\u001B[31mFormat yang Anda Masukkan Salah, Coba Lagi !\u001B[0m");
+                                System.out.println("");
             }
 
                     }
@@ -572,21 +594,20 @@ public class Ekspedisi {
 //                            LocalDate parsedDate = LocalDate.parse(tanggal, formatter);
                              String estimasi = null;
                            LocalDate parsedDateEstimasi = null;
-                        while(true){
-                         System.out.print("Masukkan tanggal estimasi: ");
-                      estimasi = input.nextLine();
+                        while(true) {
+                           System.out.print("Masukkan Tanggal Estimasi Diterima ( format : Tanggal , Bulan , Tahun  ) " + "\u001B[31m( DD.MM.YYYY )\u001B[0m : ");                      estimasi = input.nextLine();
                             try {
                                 parsedDateEstimasi = LocalDate.parse(estimasi, formatter);
-                System.out.println("Valid date: " + parsedDateEstimasi);
-                
-                            
+//                System.out.println("Valid date: " + parsedDateEstimasi);
                                  if(parsedDate.isAfter(parsedDateEstimasi)) {
                         System.out.println("\u001B[31mTanggal Estimasi Tidak Boleh Kurang Dari Tanggal Di Kirim\u001B[0m");
                     } else {
                         break;
                     }
                         } catch (Exception e) {
+                                System.out.println("");
                 System.out.println( "\u001B[31mTanggal Tidak Sesuai Coba lagi\u001B[0m");
+                                System.out.println("");
             }
 
                     }
@@ -619,10 +640,9 @@ public class Ekspedisi {
                              id_dej = "DEJ" + nextIndex;
                         }
                         
-                        
                       System.out.println("");
                       String id_pengirim = "R01";
-                      nota nta = new nota(id_nota, listKodeDitemukan, id_pengirim, id_penerimaL,status_pengiriman , id_dej, parsedDateEstimasi);
+                      nota nta = new nota(id_nota, listKodeDitemukan, id_pengirim, id_penerimaL, status_pengiriman , total_berat, id_dej, parsedDateEstimasi);
                       jadwal jad = new jadwal(id_jadwal, tanggal, estimasi);
                       detail_ekspedisi_jadwal  dej = new detail_ekspedisi_jadwal ( id_dej, id_nota, ek.id_ekspedisi(), ek.nama_ekspedisi(), estimasi , id_jadwal);
                       listNota.add(nta);
@@ -636,18 +656,19 @@ public class Ekspedisi {
                     System.out.println("Status Pengiriman Barang");
                     
                     System.out.println("+-----------------------------------+");                    
-                    System.out.println("|            List Nota              |");
+                    System.out.println("|            List Nota                 |");
                     System.out.println("+-----------------------------------+");  
                     System.out.println("");
-               
+                    
+                    String id_dej = null;
                      if(listNota.isEmpty()){
                          System.out.println("");
                          System.out.println("\u001B[31mBelum Ada List Nota, Pastikan Untuk Kirim Barang Terlebih Dahulu !\u001B[0m");
                          System.out.println("");
                     } else {
                          
-                    for(nota n : listNota){
-                      
+                    for (nota n : listNota) {
+                       id_dej = n.id_detail_eks();
                       System.out.println("| ID Nota : " + n.id_nota);
                       System.out.println("+-----------------------------------+");
                       for(penerima l : listPenerima) {
@@ -656,42 +677,25 @@ public class Ekspedisi {
                           System.out.println("+-----------------------------------+");
                           } 
                       }
-                     
-  
                       System.out.println("Status Pengiriman : " + n.Status_Pengiriman);
                       System.out.println("+-----------------------------------+");   
+                        System.out.println("");
                          }
-                }
-                    
-                   
-                    String id_dej = null;
-                    
-                    for(nota nta : listNota){
-                    id_dej = nta.id_detail_eks();
-                    System.out.println("| Nota Dengan Id    :" + nta.id_nota );                         
-                    System.out.println("+-----------------------------------+");
-                    System.out.println("| Penerima nya      : " + nta.id_penerima);                         
-                    System.out.println("+-----------------------------------+");                  
-                    System.out.println("| Status Pengiriman : " + nta.Status_Pengiriman()); 
-                    System.out.println("+-----------------------------------+");
-                    System.out.println("");                 
-                    }
+                
+
                     System.out.println("");  
-                   
-                    input.nextLine();
+             
                     String id_notas = null;
-                    
-                    
-                         System.out.print("Apakah Anda Ingin Mencari nota ( Y/T ) ? :");
-                         String jawabNota = input.nextLine();
-                         
-                         if(jawabNota.equalsIgnoreCase("Y")){
-                               System.out.print("Masukkan id Nota : ");
+                   input.nextLine();
+                        System.out.print("Masukkan id Nota : ");
                     id_notas = input.nextLine(); 
                      boolean notaFound = false;
-                       Iterator<nota> iterator = listNota.iterator();
-                          while (iterator.hasNext()) {
-                              nota n = iterator.next();
+                     
+                   
+//                       Iterator<nota> iterator1 = listNota.iterator();
+//                          while (iterator1.hasNext()) {
+//                              nota n = iterator1.next();
+                                for (nota n : listNota) {
                          if (n.id_nota().equalsIgnoreCase(id_notas)) {
                              // DISINI
                              System.out.println("+-----------------------------------+");                             
@@ -704,7 +708,7 @@ public class Ekspedisi {
                              System.out.println("| id Barang         : " + Arrays.toString(n.id_barang()));
                              System.out.println("+-----------------------------------+");
                              
-                             System.out.println("Detail Barang Yang dikirim");
+                             System.out.println("|  Detail Barang Yang dikirim");
                              
                         for (int i = 0; i <n.id_barang().length; i++) {
                         String currentKode = n.id_barang()[i];
@@ -733,44 +737,26 @@ public class Ekspedisi {
                              
                              System.out.println("");
                             
-                             String id_pengirim = n.id_pengirim();
-                             String id_penerima = n.id_penerima();
-                             LocalDate estimasi = n.estimasi();
-                             String[] id_barang = n.id_barang();
-                             System.out.println("");
-                             System.out.print("Update Status Pengiriman : " );
-                             String status_pengiriman = input.nextLine();
-                             System.out.println("");
-                             System.out.println("Update Status Pengiriman Berhasil !");
-                             
-                             
-                             iterator.remove();
-                             nota nta = new nota(n.id_nota, id_barang, id_pengirim, id_penerima,status_pengiriman, id_dej, estimasi);
-                             listNota.add(nta);
-                             notaFound = true;
+//                                 iterator1.remove();
+                                 notaFound = true;
                                break;
                       }
                           }
-                          
-                          if(id_notas == null){
-                    break;
-                }
-                       if (!notaFound) {
+                                
+                           if (!notaFound) {
                         System.out.println("\u001B[31mNota dengan ID " + id_notas + " tidak ditemukan\u001B[0m");
                 } 
-                       
-                         
                      }
-                          else {
-                                break;
-                         }
-                       
                     break;
                 case 3:
-                    System.out.println("Kembali ke menu Login");
+                     System.out.println("");
+                    System.out.println("\u001B[31mKembali ke menu Login\u001B[0m"); 
+                    System.out.println("");
                     break;
                 default:
+                     System.out.println("");
                     System.out.println("\u001B[31mPilihan tidak sesuai coba lagi\u001B[0m");
+                     System.out.println("");
             }
         } while (subChoice != 3);
     }
@@ -787,25 +773,64 @@ public class Ekspedisi {
                     // Perform action for sub-option 1
                     System.out.println("Riwayat Transaksi");
                     System.out.println("");
+                     
+                    penerima not = null;
+                    for(penerima notas : listPenerima){
+                        not = notas;
+                    }
+                    nota nom = null;
+                            for (nota t : listNota){
+                                nom = t;
+                            }
+                    
+                      if (listNota.isEmpty()) {
+                     System.out.println("");
+                System.out.println("\u001B[31mRiwayat transaksi Anda Masih Kosong !\u001B[0m");
+                  System.out.println("");
+             } else if (!id_penerima.equals(nom.id_penerima)) {
+                   System.out.println("");
+                System.out.println("\u001B[31mRiwayat transaksi Anda Masih Kosong !\u001B[0m");
+                  System.out.println("");
+             }
+                         else {
+                         
+                  Iterator<nota> iterator = listNota.iterator();  
+            while (iterator.hasNext()) {    
+                   nota na = iterator.next();
+                               String StatPeng = null;  
+                        LocalDate oneWeekLater = na.estimasi.plusWeeks(1);
+                           if(oneWeekLater.isAfter(na.estimasi) && LocalDate.now().isAfter(na.estimasi)){
+                                StatPeng = "1";
+                               iterator.remove();
+                                nota nta = new nota (na.id_nota, na.id_barang, na.id_pengirim, na.id_penerima,StatPeng, na.total_berat, na.id_detail_eks, na.estimasi);
+                               listNota.add(nta);
+                               break;
+                           } else {
+                               System.out.println("ada yang salah !");
+                           }
+                            
+                     }
+                               
                     // LOOP ID PENERIMA
-                      for(penerima p : listPenerima){
+                      for(penerima p : listPenerima) { 
                        if(id_penerima.equals(p.id_penerima())) {
                            // GET ID PENERIMA UNTUK DI SAMAKAN DENGAN LOOP
                            System.out.println("Nama Anda " + p.nama());
                            System.out.println("");
                            // LOOP NOTA 
-                          for(nota n : listNota){
+                          for(nota n : listNota) {
                               // SAMAKAN ID NOTA DENGAN DATA YANG DIDALAM NOTA 
                               // DISINI
                                if(id_penerima.equals(n.id_penerima())) {
+
                               System.out.println("+-----------------------------------+");                             
                               System.out.println("| Id Nota Anda : " + n.id_nota);
                               System.out.println("+-----------------------------------+");                             
-                              System.out.println("| Detail Barang ");
+                              System.out.println("|         \u001B[33mDetail Barang   "+ "\u001B[0m");
                          
                         for (int i = 0; i <n.id_barang().length; i++) {
                         String currentKode = n.id_barang()[i];
-
+                        
                         barang barangStat = null;
                         for (barang bStat : listBarang) {
                             if (bStat.id_barang.equals(currentKode)) {
@@ -835,7 +860,7 @@ public class Ekspedisi {
                                         }
                                   } 
                                 
-                                   if(n.Status_Pengiriman.equals(1)){
+                                   if(n.Status_Pengiriman.equals("1")){
                                          System.out.println("| Status Pengiriman :  Diterima ");
                                    } else {
                                          System.out.println("| Status Pengiriman :  Dalam Perjalanan ");
@@ -848,21 +873,95 @@ public class Ekspedisi {
                           } 
                        } 
                     }
-               
-                 if (listNota.isEmpty()) {
-                System.out.println("\u001B[31mRiwayat transaksi Anda masih kosong\u001B[0m");
-             } 
+                      
+                      System.out.print("Apakah ada Barang yang Sudah Diterima ( Y/T) : ");
+                      String j_sd = input.nextLine();
+                      boolean notaUser = false;
+
+                            if(j_sd.equalsIgnoreCase("Y")) {
+                                System.out.println("Masukkan Id nota Anda : ");
+                                String id_notaus = input.nextLine();
+                                
+                                for(nota n : listNota) {
+                                    
+                                     if(id_penerima.equals(n.id_penerima) && id_notaus.equals(n.id_nota) && n.Status_Pengiriman.equals("1")){
+                                         System.out.println("");
+                                         System.out.println("Barang Sudah Diterima Status Tidak Dapat Diubah !");
+                                         System.out.println("");
+                                           notaUser= true;
+                                         break;
+                                     }
+                                     else if (id_penerima.equals(n.id_penerima) && id_notaus.equalsIgnoreCase(n.id_nota)&& n.Status_Pengiriman.equals("0")) {
+                                        System.out.println("");
+                                      //  disini
+                                        System.out.println("Nota Anda :  " + n.id_nota );
+                                         System.out.println("Detail Barang ");
+                                     for (int i = 0; i <n.id_barang().length; i++) {
+                        String currentKode = n.id_barang()[i];
+                        
+                        barang barangStat = null;
+                        for (barang bStat : listBarang) {
+                            if (bStat.id_barang.equals(currentKode)) {
+                                barangStat = bStat;
+                                break;
+                            }
+                        }
+
+                        if (barangStat != null) {
+                            System.out.println("+-----------------------------------+");                            
+                            System.out.println("| Id Barang    : " + barangStat.id_barang());
+                            System.out.println("+-----------------------------------+");                            
+                            System.out.println("| Nama Barang  : " + barangStat.nama_barang());
+                            System.out.println("+-----------------------------------+");                            
+                            System.out.println("| Ukuran Barang : " + barangStat.ukuran());
+                            System.out.println("+-----------------------------------+");                            
+                            System.out.println("| Harga Barang : " + barangStat.harga_barang());
+                            System.out.println("+-----------------------------------+");
+                        }
+                    }
+                                  System.out.print("Masukkan Status Pengiriman ( 0 untuk belum diterima ,1 untuk diterima ) : ");
+                                  String statPeng = input.nextLine();
+                                          Iterator<nota> iterator3 = listNota.iterator();  
+                                                    while (iterator3.hasNext()) {    
+                                                         nota nuser= iterator3.next();
+                                                            iterator.remove();
+                                nota nusers = new nota (nuser.id_nota, nuser.id_barang, nuser.id_pengirim, nuser.id_penerima,statPeng, nuser.total_berat, nuser.id_detail_eks, nuser.estimasi);
+                               listNota.add(nusers);
+                                                        System.out.println("\u001B[31mBerhasil Diubah !\u001B[0m");
+                               break;
+                                                    }
+                                                    
+                                        System.out.println("");
+                                        notaUser= true;
+                                        break;
+                                    } 
+                                }
+                                
+                                if(!notaUser){
+                                    System.out.println("\u001B[31mMasukkan Nota dengan Benar !\u001B[0m");
+                                } else {
+                                    break;
+                                }
+                                
+                      } 
+                            
+                      }
+
                        if(idPenerimaDitemukan && listNota.isEmpty()) {
+                           System.out.println("");
                        System.out.println("\u001B[31mRiwayat transaksi Anda masih kosong\u001B[0m");
+                           System.out.println("");
                        }
                     break;
                 case 2:
                     System.out.println("");
-                    System.out.println("Kembali ke menu Login");
+                    System.out.println("\u001B[31mKembali ke menu Login\u001B[0m");
                     System.out.println("");
                     break;
                 default:
+                    System.out.println("");
                     System.out.println("\u001B[31mPilihan tidak sesuai coba lagi\u001B[0m");
+                    System.out.println("");
             }
        } while(subChoiceUser != 2);
    }

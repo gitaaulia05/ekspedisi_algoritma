@@ -14,10 +14,20 @@ public class login {
     public static void main(String[] args) {
          ArrayList<nota> listNota = new ArrayList<>();
            
-          LocalDate currentDate = LocalDate.now();
+        LocalDate currentDate = LocalDate.now();
         LocalDate oneWeekLater = currentDate.plusWeeks(1);
-        
-        System.out.println(oneWeekLater);
+          System.out.println(oneWeekLater);
+          
+          String p = null;
+          p ="0";
+          
+        if(oneWeekLater.isAfter(LocalDate.now())){
+            p = "1";
+        } else {
+            p = "yo";
+        }
+        System.out.println(p);
+      
     }   
     
 }
