@@ -118,8 +118,10 @@ public class Ekspedisi {
         System.out.println("| 1 | Kirim Barang                |");
         System.out.println("+---+-----------------------------+");        
         System.out.println("| 2 | Status Pengiriman           |");
+        System.out.println("+---+-----------------------------+");     
+        System.out.println("| 3 | Panduan Aplikasi            |");
         System.out.println("+---+-----------------------------+");        
-        System.out.println("| 3 | Keluar                      |");
+        System.out.println("| 4 | Keluar                      |");
         System.out.println("+---+-----------------------------+");
         System.out.print("Pilih Menu : ");
     }
@@ -130,8 +132,10 @@ public class Ekspedisi {
         System.out.println("| No|            Menu             |");
         System.out.println("+---+-----------------------------+");        
         System.out.println("| 1 | Riwayat Transaksi           |");
-        System.out.println("+---+-----------------------------+");        
-        System.out.println("| 2 | Keluar                     |");
+        System.out.println("+---+-----------------------------+");  
+        System.out.println("| 2 | Panduan Aplikasi            |");
+        System.out.println("+---+-----------------------------+");  
+        System.out.println("| 3 | Keluar                      |");
         System.out.println("+---+-----------------------------+");
         System.out.print("Pilih Menu : ");
     }
@@ -449,7 +453,7 @@ System.out.println("");
 //                    while (!barangDitemukan) {
                         
                         for(barang ba : listBarang){
-                        if (ba.id_barang.equals(currentKode)) {
+                        if (ba.id_barang.equals(currentKode) && ba.nama_barang.equalsIgnoreCase(j_barang1)) {
                             System.out.println("");
                             // DISINI
                             System.out.println("+----------------------------------+");                            
@@ -749,7 +753,19 @@ System.out.println("");
                      }
                     break;
                 case 3:
-                     System.out.println("");
+
+                    System.out.println("+---------------------------------------------------------------------------------------------------------------------+");                    
+                    System.out.println("|                                                 Panduan Pengguna                                                    |");                  
+                    System.out.println("+---------------------------------------------------------------------------------------------------------------------+");
+                    System.out.println("| 1. Terdapat menu Kirim barang : masukkan jenis barang, no barang, serta pilih jenis ekspedisi,                     |");                  
+                    System.out.println("|    masukkan berat barang, tanggal dikirim dan tanggal estimasi, serta status pengiriman.                            |");
+                    System.out.println("| 2. Menu Status pengiriman untuk Melihat Nota pelanggan                                                                    |");                   
+                    System.out.println("| 3. Menu Keluar dipilih jika telah selesai dan ingin keluar dari program ini                                         |");                    
+                    System.out.println("+---------------------------------------------------------------------------------------------------------------------+");
+                    break;
+                   
+                case 4 :
+                      System.out.println("");
                     System.out.println("\u001B[31mKembali ke menu Login\u001B[0m"); 
                     System.out.println("");
                     break;
@@ -758,7 +774,7 @@ System.out.println("");
                     System.out.println("\u001B[31mPilihan tidak sesuai coba lagi\u001B[0m");
                      System.out.println("");
             }
-        } while (subChoice != 3);
+        } while (subChoice != 4);
     }
     
    private static void handleSubMenuUser(Scanner input, ArrayList<penerima> listPenerima, String id_penerima, ArrayList<nota> listNota, barang[] listBarang,  ArrayList<detail_ekspedisi_jadwal> listdetEksJad ){
@@ -954,6 +970,18 @@ System.out.println("");
                        }
                     break;
                 case 2:
+                    
+                       System.out.println("+---------------------------------------------------------------------------------------------------------------------+");                    
+                    System.out.println("|                                                 Panduan Pengguna                                                    |");                   
+                    System.out.println("+---------------------------------------------------------------------------------------------------------------------+"); 
+                    System.out.println("| 1. Menu Riwayat Transaksi untuk melihat detail Nota anda : Nama , ukuran, harga barang, estimasi diterima,          |");                    
+                    System.out.println("|    nama ekspedisi, serta status pengiriman                                                                          |");
+                    System.out.println("|    Status Pengiriman untuk melihat status pengiriman barang yang dimana 0 untuk dalam perjalanan dan                |");                  
+                    System.out.println("|    1 untuk sudah diterima                                                                                           |");
+                    System.out.println("| 2. Menu keluar digunakan jika telah selesai dan ingin keluar dari aplikasi ini                                      |");                    
+                    System.out.println("+---------------------------------------------------------------------------------------------------------------------+");
+                    break;
+                case 3 :
                     System.out.println("");
                     System.out.println("\u001B[31mKembali ke menu Login\u001B[0m");
                     System.out.println("");
@@ -963,7 +991,7 @@ System.out.println("");
                     System.out.println("\u001B[31mPilihan tidak sesuai coba lagi\u001B[0m");
                     System.out.println("");
             }
-       } while(subChoiceUser != 2);
+       } while(subChoiceUser != 3   );
    }
 
 }
